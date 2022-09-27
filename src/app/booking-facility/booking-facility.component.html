@@ -1,0 +1,129 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-4"></div>
+      <div class="col-md-5">
+        <div class="card">
+          <div class="card-header">
+        <h4 style="Color:red">Book the slot for ground</h4>
+        <form #f="ngForm"  class="form-horizontal">
+          <div class="card-body">
+            <div class="form-group row">
+              <label class="col-sm-3 col=form-label" for="GroundName"> GroundName</label>
+              <div class="col-sm-9">
+                <!-- <select [(ngModel)]="mr.Country" (change)="onCodeChange($event)">
+                  <option *ngFor="let country of countries" [value]="country"> {{ country }} </option>
+                </select> -->
+    
+                <select 
+                class="form-control" 
+                name="GroundName"
+                [(ngModel)]="mr.GroundName"
+                required
+                #GroundName="ngModel" (change)="ondrpGroundChange($event)">
+                <option value="Crircket1">Crircket1</option>
+                <option value="Cricket2">Cricket2</option>
+                <option value="Cricket3">Cricket3</option>
+                <option value="Batemanton1">Batemanton1</option>
+                <option value="Batemanton2">Batemanton2</option>
+                <option value="Football">Football</option>
+
+                </select>
+              </div>
+              <!-- <div style="Color:red" *ngIf="pid.errors?.['required'] && pid.touched" class="text-danger">PolicyID Required.</div> -->
+            </div>
+            <div class="form-group row">
+              <label class="col-sm-3 col=form-label" for="Date">Date</label>
+              <div class="col-sm-9">
+              <input
+                type="date"
+                class="form-control"
+                name="Date"
+                [(ngModel)]="mr.Bookeddate"
+                (change)="onDateChange($event)"
+                required
+                #Date="ngModel"
+              />
+            </div>
+            <span id="lblError" style = "color:Red"></span>
+              <!-- <div style="Color:red" *ngIf="pid.errors?.['required'] && pid.touched" class="text-danger">PolicyID Required.</div> -->
+            </div>
+       <div class="form-group">
+        <button style="background-color: blue;" (click)="GetAvailableSlots()" class="btn btn-primary">BookSlot</button>
+      </div>
+    </div>
+  </form>
+</div>
+</div>
+</div>
+<br>
+<br>
+ <div class="row" *ngIf ='Isclicked'>
+  <div class="table table-responsive" id="user" >
+      <div class="table-responsive" > 
+          <table class="table table-striped border"  *ngIf = 'Availableslotlist.length > 0'>
+            <h4 style="color: red;">Available Slots</h4>
+              <thead >
+              <tr class="table-secondary">
+                  <th>GroundName</th>
+                  <th>Bookeddate</th>
+                  <th>Slottimings</th>
+                  <th>Action</th>
+                  
+              </tr>
+          </thead>
+          <tbody>
+              <tr *ngFor = "let sl of this.Availableslotlist">
+                  <td> {{ mr.GroundName}} </td>
+                  <td> {{ mr.Bookeddate | date}} </td>
+                  <td> {{ sl }} </td>
+                  
+                  <td class="card-row-action">
+                    <button   class="btn btn-primary btn-info" 
+                     (click)="SlotBooking(sl)">Book Slot</button>
+                 </td>
+              </tr>
+          </tbody>
+          
+          </table>
+      </div>
+  </div>
+  <div class="row" *ngIf = 'Availableslotlist.length == 0'>
+    <h4 style="color: red;">Available Slots</h4>
+    <span style="color: red;">House full</span>
+   </div>
+</div>
+<div class="row"  *ngIf ='Isclicked'>
+  <div class="table table-responsive" id="user" >
+      <div class="table-responsive" > 
+          <table class="table table-striped border"  *ngIf = 'slotbookinggroundslist.length > 0'>
+            <h4 style="color: red;">Booked Slots</h4>
+              <thead >
+              <tr class="table-secondary">
+                  <th>GroundName</th>
+                  <th>Bookeddate</th>
+                  <th>Slottimings</th>
+                  <th>Action</th>
+                  
+              </tr>
+          </thead>
+          <tbody>
+              <tr *ngFor = "let sl of slotbookinggroundslist">
+                  <td> {{sl.groundName}} </td>
+                  <td> {{sl.bookeddate | date}} </td>
+                  <td> {{sl.slotBookingtime}} </td>
+                  
+                  <td class="card-row-action">
+                    <button   class="btn btn-primary btn-danger" 
+                     >Booked</button>
+                 </td>
+              </tr>
+          </tbody>
+          
+          </table>
+      </div>
+  </div>
+  <div class="row" *ngIf = 'slotbookinggroundslist.length == 0'>
+    <h4 style="color: red;">Booked Slots</h4>
+    <span style="color: red;">No records found</span>
+   </div>
+</div>

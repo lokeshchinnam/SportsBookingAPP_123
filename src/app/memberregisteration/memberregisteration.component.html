@@ -1,0 +1,341 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-4"></div>
+      <div class="col-md-5">
+        <div class="card">
+          <div class="card-header">
+        <h4 style="Color:red">Player Registeration</h4>
+        <form #f="ngForm" (ngSubmit)="onSubmit()" class="form-horizontal">
+          <div class="card-body">
+          <div class="form-group row">
+            <label class="col-sm-3 col=form-label" for="mid">PlayerID</label>
+            <div class="col-sm-9">
+            <input
+              type="text"
+              class="form-control"
+              name="mid"
+              [(ngModel)]="mr.PlayerId"
+              required
+              #mid="ngModel"
+            />
+          </div>
+            <div style="Color:red" *ngIf="mid.errors?.['required'] && mid.touched" class="text-danger">PlayerId Required.</div>
+          </div>
+          <div class="form-group row">
+            <label class="col-sm-3 col=form-label" for="PlayerName">PlayerName</label>
+            <div class="col-sm-9">
+            <input
+              type="text"
+              class="form-control"
+              name="PlayerName"
+              [(ngModel)]="mr.PlayerName"
+              required
+              #PlayerName="ngModel"
+            />
+          </div>
+            <div style="Color:red" *ngIf="PlayerName.errors?.['required'] && PlayerName.touched" class="text-danger">PlayerName Required.</div>
+          </div>
+       
+          <div class="form-group row">
+              <label class="col-sm-3 col=form-label" for="Email">Email</label>
+              <div class="col-sm-9">
+              <input
+                type="text"
+                class="form-control"
+                name="Email"
+                [(ngModel)]="mr.Email"
+                required
+                #Email="ngModel"
+              />
+            </div>
+              <div style="Color:red" *ngIf="Email.errors?.['required'] && Email.touched" class="text-danger">Email Required.</div>
+            </div>
+            <div class="form-group row">
+              <label class="col-sm-3 col=form-label" for="Address">Address</label>
+              <div class="col-sm-9">
+              <input
+                type="text"
+                class="form-control"
+                name="Address"
+                [(ngModel)]="mr.Address"
+                required
+                #Address="ngModel"
+              />
+            </div>
+              <div style="Color:red" *ngIf="Email.errors?.['required'] && Address.touched" class="text-danger">Address Required.</div>
+            </div>
+            <div class="form-group row">
+              <label class="col-sm-3 col=form-label" for="Country">Country</label>
+              <div class="col-sm-9">
+                <!-- <select [(ngModel)]="mr.Country" (change)="onCodeChange($event)">
+                  <option *ngFor="let country of countries" [value]="country"> {{ country }} </option>
+                </select> -->
+    
+                <select 
+                class="form-control" 
+                name="Country"
+                [(ngModel)]="mr.Country"
+                required
+                #Country="ngModel" (change)="onCodeChange($event)">
+                <option value="India">India</option>
+                <option value="USA">USA</option>
+                <option value="UK">UK</option>
+                </select>
+              </div>
+              <!-- <div style="Color:red" *ngIf="pid.errors?.['required'] && pid.touched" class="text-danger">PolicyID Required.</div> -->
+            </div>
+            
+            
+            <div class="form-group row">
+              <label class="col-sm-3 col=form-label" for="state">State</label>
+              <div class="col-sm-9">
+                <!-- <select *ngIf="country" [(ngModel)]="this.playerslist.state" [value]="state">
+                  <option *ngFor="let state of states"> {{ state }} </option>
+                </select> -->
+              <select 
+              class="form-control" 
+              name="State"
+              [(ngModel)]="mr.State"
+              required
+              #State="ngModel">
+              <option *ngFor="let state of this.stateslist"> {{ state }} </option>
+              </select>
+            </div>
+              <div class="alert-danger" *ngIf="f.submitted && state.invalid">
+                <!-- <div style="Color:red" *ngIf="policystatus.errors?.['required']">Policy Status is required</div> -->
+              </div>
+            </div>
+            <div class="form-group row">
+              <label class="col-sm-3 col=form-label" for="Pan">Pan Card</label>
+              <div class="col-sm-9">
+              <input
+                type="text"
+                class="form-control"
+                name="Pan"
+                [(ngModel)]="mr.Pan"
+                required
+                #Pan="ngModel"
+              />
+            </div>
+              <!-- <div style="Color:red" *ngIf="pid.errors?.['required'] && pid.touched" class="text-danger">PolicyID Required.</div> -->
+            </div>
+            <div class="form-group row">
+              <label class="col-sm-3 col=form-label" for="ContactNo">ContactNumber</label>
+              <div class="col-sm-9">
+              <input
+                type="text"
+                class="form-control"
+                name="ContactNo"
+                [(ngModel)]="mr.ContactNo"
+                required
+                #ContactNo="ngModel"
+              />
+            </div>
+              <!-- <div style="Color:red" *ngIf="pid.errors?.['required'] && pid.touched" class="text-danger">PolicyID Required.</div> -->
+            </div>
+            <div class="form-group row">
+              <label class="col-sm-3 col=form-label" for="Dob">Date of Birth</label>
+              <div class="col-sm-9">
+              <input
+                type="date"
+                class="form-control"
+                name="Dob"
+                [(ngModel)]="mr.Dob"
+                required
+                #Dob="ngModel"
+              />
+            </div>
+            <span id="lblError" style = "color:Red"></span>
+              <!-- <div style="Color:red" *ngIf="pid.errors?.['required'] && pid.touched" class="text-danger">PolicyID Required.</div> -->
+            </div>
+      <div class="form-group">
+        <button style="background-color: blue;"  class="btn btn-primary btn-block">Create Member</button>
+      </div>
+      <!-- <div class="form-group">
+        <button style="background-color: blue;"  class="btn btn-primary btn-block" (click)="BookSlot()">BookSlot</button>
+      </div> -->
+    </div>
+        </form>
+      </div>
+      </div>
+      </div>
+      <br>
+      <br>
+      
+  <div class="row">
+      <div class="table table-responsive" id="user" >
+          <div class="table-responsive" > 
+              <table class="table table-striped border"  *ngIf = 'playerslist.length > 0'>
+                  <thead >
+                  <tr class="table-secondary">
+                      <th>PlayerID</th>
+                      <th>PlayerName</th>
+                      <th>Email</th>
+                      <th>Address</th>
+                      <th>State</th>
+                      <th>Country</th>
+                      <th>Pan</th>
+                      <th>ContactNo</th>
+                      <th>Dob</th>
+                      <th>Action</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  <tr *ngFor = "let mr of playerslist">
+                      <td> {{mr.playerId}} </td>
+                      <td> {{mr.playerName}} </td>
+                      <td> {{mr.email}} </td>
+                      <td> {{mr.address}} </td>
+                      <td>{{mr.state}} </td>
+                      <td>{{mr.country}} </td>
+                      <td>{{mr.pan}} </td>
+                      <td>{{mr.contactNo}} </td>
+                      <td>{{mr.dob | date}} </td>
+                      <td class="card-row-action">
+                          <a (click)="editPlayer(mr)"><i class="fa-solid fa-edit"></i>
+                          </a>
+                        </td>
+                  </tr>
+              </tbody>
+              
+              </table>
+          </div>
+      </div>
+      
+  </div>
+  <div class="row" *ngIf = 'playerslist.length == 0'>
+    <span style="color: red;">No records found</span>
+  </div>
+ 
+  </div>
+  <div class="card card-container mycontainer" *ngIf="isEditplayerClicked" >
+      <div><h1 style="text-align:center;">Edit Player</h1></div>
+      <form name="form" (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm" novalidate>
+          <div class="form-group">
+              <label for="playerId">Player Id</label>
+              <input type="text" class="form-control" name="playerId" [(ngModel)]="this.playerslist.playerId" 
+                 #playerId="ngModel" disabled />          
+            </div>
+        <div class="form-group">
+          <label for="email">Email Id</label>
+          <input type="text" class="form-control" name="email" [(ngModel)]="this.playerslist.email" 
+             #email="ngModel" />          
+        </div>
+        <div class="form-group">
+          <label for="pan">Pan Card</label>
+          <input type="text"  class="form-control" name="pan" [(ngModel)]="this.playerslist.pan" required
+            #pan="ngModel"  />   
+          <div class="alert-danger" *ngIf="f.submitted && pan.invalid">
+            <div *ngIf="pan.errors?.['required']">Pan Card is required</div>
+          </div>       
+        </div>
+        <div class="form-group">
+            <label for="contactNo">contactNo</label>
+            <input type="text" class="form-control"  name="contactNo"
+              [(ngModel)]="this.playerslist.contactNo" required #contactNo="ngModel" />   
+            <div class="alert-danger" *ngIf="f.submitted && contactNo.invalid">
+              <div *ngIf="contactNo.errors?.['required']">Contact No is required</div>
+            </div>       
+        </div>
+        <div class="form-group row">
+          <label class="col-sm-3 col=form-label" for="Country">Country</label>
+          <div class="col-sm-9">
+            <!-- <select [(ngModel)]="this.playerslist.country">
+              <option *ngFor="let country of countries" [value]="country"> {{ country }} </option>
+            </select> -->
+
+            <select 
+            class="form-control" 
+            name="Country"
+            [(ngModel)]="mr.Country"
+            required
+            #Country="ngModel" (change)="onCodeChange($event)">
+            <option value="India">India</option>
+            <option value="USA">USA</option>
+            <option value="UK">UK</option>
+            </select>
+          </div>
+          <!-- <div style="Color:red" *ngIf="pid.errors?.['required'] && pid.touched" class="text-danger">PolicyID Required.</div> -->
+        </div>
+        
+        
+        <div class="form-group row">
+          <label class="col-sm-3 col=form-label" for="state">State</label>
+          <div class="col-sm-9">
+            <!-- <select *ngIf="country" [(ngModel)]="this.playerslist.state" [value]="state">
+              <option *ngFor="let state of states"> {{ state }} </option>
+            </select> -->
+          <select 
+          class="form-control" 
+          name="State"
+          [(ngModel)]="mr.State"
+          required
+          #State="ngModel">
+          <option *ngFor="let state of this.stateslist"> {{ state }} </option>
+          </select>
+        </div>
+          <div class="alert-danger" *ngIf="f.submitted && state.invalid">
+            <!-- <div style="Color:red" *ngIf="policystatus.errors?.['required']">Policy Status is required</div> -->
+          </div>
+        </div>
+       
+       
+        <div class="form-group">
+          <button class="btn btn-primary" (click)="onEditPlayer(this.playerslist)">Edit</button>
+        </div>
+        <div class="alert alert-warning" *ngIf="f.submitted && isCreateplayerFailed">
+          Player edit failed!<br />{{ errorMessage }}
+        </div>
+      </form>
+      <div class="alert alert-success" *ngIf="isSuccessful">
+        Player is edited successfully!
+      </div>
+
+</div>
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6/jquery.min.js" type="text/javascript"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"
+    type="text/javascript"></script>
+<link href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css"
+    rel="Stylesheet" type="text/css" />
+<script type="text/javascript">
+    $(function () {
+        $("#txtDate").datepicker({
+            changeMonth: true,
+            changeYear: true,
+            showOn: 'button',
+            buttonImageOnly: true,
+            buttonImage: 'images/calendar.gif',
+            dateFormat: 'dd/mm/yy',
+            yearRange: '1900:+0',
+            onSelect: function (dateString, txtDate) {
+                ValidateDOB(dateString);
+            }
+        });
+    });
+    function ValidateDOB(dateString) {
+        var lblError = $("#lblError");
+        var parts = dateString.split("/");
+        var dtDOB = new Date(parts[1] + "/" + parts[0] + "/" + parts[2]);
+        var dtCurrent = new Date();
+        lblError.html("Eligibility 18 years ONLY.")
+        if (dtCurrent.getFullYear() - dtDOB.getFullYear() < 18) {
+            return false;
+        }
+ 
+        if (dtCurrent.getFullYear() - dtDOB.getFullYear() == 18) {
+ 
+            //CD: 11/06/2018 and DB: 15/07/2000. Will turned 18 on 15/07/2018.
+            if (dtCurrent.getMonth() < dtDOB.getMonth()) {
+                return false;
+            }
+            if (dtCurrent.getMonth() == dtDOB.getMonth()) {
+                //CD: 11/06/2018 and DB: 15/06/2000. Will turned 18 on 15/06/2018.
+                if (dtCurrent.getDate() < dtDOB.getDate()) {
+                    return false;
+                }
+            }
+        }
+        lblError.html("");
+        return true;
+    }
+</script> -->

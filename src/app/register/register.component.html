@@ -1,0 +1,92 @@
+<div class="container">
+    <div class="cards-container">
+        <div class="cards-form">
+          <form  #f="ngForm">
+            <div class="form-group">
+                <label for="firstname">Firstname</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  name="firstname"
+                  [(ngModel)]="user.firstname"
+                  required
+                  #firstname="ngModel"
+                />
+                <div class="alert-danger" *ngIf="f.submitted && firstname.invalid || firstname.touched">
+                  <div style="Color:red" *ngIf="firstname.errors?.['required']">firstname is required</div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="lastname">LastName</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  name="lastname"
+                  [(ngModel)]="user.lastname"
+                  required
+                  #lastname="ngModel"
+                />
+                <div class="alert-danger" *ngIf="f.submitted && lastname.invalid || lastname.touched">
+                  <div style="Color:red" *ngIf="lastname.errors?.['required']">lastname is required</div>
+                </div>
+              </div>
+            <div class="form-group">
+              <label for="username">UserName/EmailId</label>
+              <input
+                type="text"
+                class="form-control"
+                name="email"
+                pattern="^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$"
+                [(ngModel)]="user.email"
+                required
+                minlength="3"
+                maxlength="30"
+                email
+                #email="ngModel"
+              />
+              <div class="alert-danger" *ngIf="f.submitted && email.invalid || email.touched">
+                <div style="Color:red" *ngIf="email.errors?.['required']">emailId is required</div>
+              </div>
+              <div class="alert-danger" *ngIf="f.submitted && email.invalid">
+                <div style="Color:red" *ngIf="email.errors?.['pattern']">Invalid EmailId</div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="password">Password</label>
+              <!-- pattern="^(?=.*[A-Z])(?=.*\\d)$" -->
+              <input
+                type="text"
+                class="form-control"
+                name="password"
+                [(ngModel)]="user.password"
+                required
+                minlength="8"
+                #password="ngModel"
+              />
+              <div class="alert-danger" *ngIf="f.submitted && password.invalid || password.touched">
+                <div style="Color:red" *ngIf="password.errors?.['required']">
+                  Password is required</div>
+                <div *ngIf="password.errors?.['minlength']">
+                  Password must be at least 8 characters
+                </div>
+                <!-- <div  style="Color:red" *ngIf="password.errors?.['pattern']">
+                   Password should contain atleast one Uppercase and one digit 
+                </div> -->
+              </div>
+            </div>
+         
+            <br>
+            <br>
+        
+        <div class="form-group">
+          <!-- <a href='member'  type="button" class="btn btn-primary btn-block" (click)="onSubmit(f)" >Register</a> -->
+          <button   class="btn btn-primary btn-block" 
+          (click)="onSubmit(f)" [disabled]="f.invalid">Register</button>
+        </div>
+        <div class="alert alert-warning" *ngIf="f.submitted && isSignUpFailed">
+          Signup failed!<br />{{ errorMessage }}
+        </div>
+          </form>
+    </div>
+    </div>
+</div>
