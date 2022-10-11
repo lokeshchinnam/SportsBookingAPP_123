@@ -7,14 +7,14 @@ import { PlayerRegister } from '../models/Player';
   })
 
   export class Registerservices{
-    baseUrl = 'https://sportsfacilitybookingapp20220926181520.azurewebsites.net/Players/CreatePlayer'
-    GetURL='https://sportsfacilitybookingapp20220926181520.azurewebsites.net/Players/GetPlayers'
-    EditURL='https://sportsfacilitybookingapp20220926181520.azurewebsites.net/Players/UpdatePlayerDetails'
-    GetStatebasedonCountryURL='https://sportsfacilitybookingapp20220926181520.azurewebsites.net/Players/GetStatebasedonCountry'
-    // baseUrl = 'https://localhost:7106/Players/CreatePlayer'
-    // GetURL='https://localhost:7106/Players/GetPlayers'
-    // EditURL='https://localhost:7106/Players/UpdatePlayerDetails'
-    // GetStatebasedonCountryURL='https://localhost:7106/Players/GetStatebasedonCountry'
+    // baseUrl = 'https://sportsfacilitybookingapp20220926181520.azurewebsites.net/Players/CreatePlayer'
+    // GetURL='https://sportsfacilitybookingapp20220926181520.azurewebsites.net/Players/GetPlayers'
+    // EditURL='https://sportsfacilitybookingapp20220926181520.azurewebsites.net/Players/UpdatePlayerDetails'
+    // GetStatebasedonCountryURL='https://sportsfacilitybookingapp20220926181520.azurewebsites.net/Players/GetStatebasedonCountry'
+    baseUrl = 'https://localhost:7106/Players/CreatePlayer'
+    GetURL='https://localhost:7106/Players/GetPlayers'
+    EditURL='https://localhost:7106/Players/UpdatePlayerDetails'
+    GetStatebasedonCountryURL='https://localhost:7106/Players/GetStatebasedonCountry'
     constructor(private http: HttpClient) { }
 
     register(mr : PlayerRegister): Observable<PlayerRegister> {

@@ -8,7 +8,8 @@ import { ActivatedRoute,Router} from '@angular/router';
   styleUrls: ['./booking-facility.component.css']
 })
 export class BookingFacilityComponent implements OnInit {
-
+  p1: number = 1;
+  pagenumber:number=1;
   mr:Grounddetails={
     GroundName:'',
     Bookeddate: '',
@@ -19,28 +20,60 @@ export class BookingFacilityComponent implements OnInit {
   slotbookinggroundslist:any;
   Isclicked :any;
   Sucessmsg:any;
+  Selecteddate:any;
+  Currentdate:any;
   constructor(private Groundservices:Groundservices,private router: Router) { }
-
+  pageChanged($event:any){
+  
+    this.p1 = $event;
+    console.log(this.p1);
+  }
+  // onpageChanged($e:any){
+  
+  //   this.pagenumber = $e;
+  //   console.log(this.p1);
+  // }
   ngOnInit(): void {
+    this.checkloggedin()
+  }
+  checkloggedin(){
+    if(localStorage.getItem('token')==null)
+    {
+      this.router.navigate(['/signin']);
+      return false;
+    }
+    else{
+
+      return true;
+    }
+  }
+  backtonav(){
+    this.router.navigate(['/navbar']);
   }
   ondrpGroundChange($event:any){
     this.mr.GroundName = $event.target.value;
+    this.Availableslotlist=['6-7AM','7-8AM','8-9AM','9-10AM','10-11AM','11-12AM','12-1PM','1-2PM','2-3PM','3-4PM','4-5PM','5-6PM'];
     console.log( this.mr.GroundName);
   }
 
   onDateChange($event:any)
   {
     this.mr.Bookeddate=$event.target.value;
-    // var today = new Date();
-    // var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
-    // console.log(date);
-    // if(date < this.mr.Bookeddate)
-    // {
-    //       alert('Date should not be less than system date');
-    //       this.mr.Bookeddate='';
-    //       return;
-    // }
-    //this.mr.Bookeddate=$event.target.value;
+    this.Selecteddate = $event.target.value;
+    var today = new Date();
+    this.Currentdate = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+
+    var date = this.Currentdate - this.Selecteddate;
+    const date1 = new Date(this.Currentdate);
+    const date2 = new Date(this.Selecteddate);
+    console.log(date);
+    
+    if(date1>date2)
+    {
+      this.mr.Bookeddate='';
+      alert('Date should not be less than system date');
+      return;
+    }
     console.log( this.mr.Bookeddate);
   }
   SlotBooking(slottime:any){
@@ -53,7 +86,7 @@ export class BookingFacilityComponent implements OnInit {
       response => {
         console.log(response);
         this.Sucessmsg=response;
-        alert('hello');
+       // alert('hello');
         alert(this.Sucessmsg.result);
         this.GetAvailableSlots()
          // this.reload();

@@ -19,22 +19,26 @@
     isLoggedIn = false;
     isLoginFailed = false;
     errorMessage = '';
-    response : any;
+    result : any;
     constructor(private loginservice : LoginServices, private router: Router){}
   
     ngOnInit(): void {
     }
-  
+    redirect(){
+      this.router.navigate(['/register']);
+      //this.router.navigate(['/booking-facility']);
+    }
   onSubmit(){
-    console.log("hello");
+    console.log(this.cred.userName);
     if(this.cred.userName!='' && this.cred.password!=''){
       this.loginservice.login(this.cred)
       .subscribe(
         response => {
           console.log(response);
-          this.response = response;
-          localStorage.setItem('response',this.response.response)
-          if(this.response.token=='')
+          this.result = response;
+          localStorage.setItem("token",this.result.token);
+          localStorage.setItem('currentUserName',this.result.username);
+          if(this.result.token=='')
           {
             console.log("errorMessage");
             // alert('Login Failed')
@@ -43,7 +47,7 @@
           }
           else{
             
-              this.router.navigate(['/memberregisteration']);
+              this.router.navigate(['/navbar']);
            
           }
         }

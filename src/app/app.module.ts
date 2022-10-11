@@ -8,6 +8,10 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { BookingFacilityComponent } from './booking-facility/booking-facility.component';
 import { RegisterComponent } from './register/register.component';
 import { MemberregisterationComponent } from './memberregisteration/memberregisteration.component';
+import { NavbarComponent } from './navbar/navbar.component';
+import { NgxPaginationModule } from 'ngx-pagination';
+import { PopupComponent } from './popup/popup.component';
+import { JwtHelperService, JWT_OPTIONS } from "@auth0/angular-jwt";
 
 @NgModule({
   declarations: [
@@ -15,15 +19,18 @@ import { MemberregisterationComponent } from './memberregisteration/memberregist
     SigninComponent,
     BookingFacilityComponent,
     RegisterComponent,
-    MemberregisterationComponent
+    MemberregisterationComponent,
+    NavbarComponent,
+    PopupComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    NgxPaginationModule
   ],
-  providers: [],
+  providers: [{ provide: JWT_OPTIONS, useValue: JWT_OPTIONS }, JwtHelperService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

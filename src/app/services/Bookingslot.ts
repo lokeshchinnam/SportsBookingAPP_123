@@ -8,10 +8,10 @@ import { Grounddetails } from '../models/Grounddetails';
   })
 
   export class Groundservices{
-    // baseUrl = 'https://localhost:7106/Players/SlotBooking'
-    // GetURL='https://localhost:7106/Players/GetAvailableSlots'
-    baseUrl = 'https://sportsfacilitybookingapp20220926181520.azurewebsites.net/Players/SlotBooking'
-    GetURL='https://sportsfacilitybookingapp20220926181520.azurewebsites.net/Players/GetAvailableSlots/'
+    baseUrl = 'https://localhost:7106/Players/SlotBooking'
+    GetURL='https://localhost:7106/Players/GetAvailableSlots'
+    // baseUrl = 'https://sportsfacilitybookingapp20220926181520.azurewebsites.net/Players/SlotBooking'
+    // GetURL='https://sportsfacilitybookingapp20220926181520.azurewebsites.net/Players/GetAvailableSlots/'
     constructor(private http: HttpClient) { }
 
     SlotBooking(mr :Grounddetails): Observable<Grounddetails> {

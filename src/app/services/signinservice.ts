@@ -9,10 +9,10 @@ import { Credentials } from '../models/credentials';
   })
   
   export class LoginServices{
-    baseUrl= 'https://authentication20220926170119.azurewebsites.net/Authentication'
-    //baseUrl='https://localhost:7224/Authentication'
-    //  registerUrl ='https://localhost:7106/Players/CreateAccount'
-     registerUrl ='https://sportsfacilitybookingapp20220926181520.azurewebsites.net/Players/CreateAccount'
+    //baseUrl= 'https://authentication20220926170119.azurewebsites.net/Authentication'
+     baseUrl='https://localhost:7224/Authentication'
+     registerUrl ='https://localhost:7106/Players/CreateAccount'
+     //registerUrl ='https://sportsfacilitybookingapp20220926181520.azurewebsites.net/Players/CreateAccount'
     constructor(private http: HttpClient) { }
 
     login(credential : Credentials):Observable<Credentials[]>{

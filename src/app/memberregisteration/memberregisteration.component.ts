@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { PlayerRegister } from '../models/Player';
 import { Registerservices } from '../services/Playerregisteration';
-import { ActivatedRoute,Router} from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { NgxPaginationModule } from 'ngx-pagination';
+
 
 @Component({
   selector: 'app-memberregisteration',
@@ -9,128 +11,225 @@ import { ActivatedRoute,Router} from '@angular/router';
   styleUrls: ['./memberregisteration.component.css']
 })
 export class MemberregisterationComponent implements OnInit {
+  config:any;
+  p1: number = 1;
 
-  isCreateplayerFailed=false;
-  players:any={};
-  playerslist:any={};
-  mr:PlayerRegister={
-    id:0,
-    PlayerId : 'MS-000002',
+ 
+  isCreateplayerFailed = false;
+  players: any = {};
+  playerslist: any = {};
+  mr: PlayerRegister = {
+    id: 0,
+    PlayerId: 'MS-000002',
     PlayerName: '',
-    Email : '',
+    Email: '',
     Address: '',
-    State :'',
-    Country :'',
-    Pan : '',
-    ContactNo : '',
-    Dob : '',
+    State: '',
+    Country: '',
+    Pan: '',
+    ContactNo: '',
+    Dob: '',
   }
   isSuccessful = false;
   isSignUpFailed = false;
-  response : any;
+  response: any;
   errorMessage = ''
   isEditplayerClicked = false;
   isListplayers = false;
-  country:any;
-    state:any;
-    states:any;
-    stateslist:any;
-    constructor(private regServices:Registerservices,private router: Router) { }
+  country: any;
+  state: any;
+  states: any;
+  stateslist: any;
+  Selecteddate: any;
+  Currentdate: any;
+  date:any;
+  updatestateslist:any;
+  Isreset=false;
+  constructor(private regServices: Registerservices, private router: Router) { 
+    // this.config.currentPage=1;
+    // this.reload();
+    console.log('Constructor');
+    console.log(this.playerslist);
+    //var length=this.playerslist.length;
+    // this.config = {
+    //   itemsPerPage: 5,
+    //   currentPage: 2,//this.config.currentPage,
+    //   totalItems: length
+    // };
+  }
   
-    ngOnInit(): void {
-      this.reload();
-    }
-   
+pageChanged($event:any){
   
-    onCodeChange($event:any){
-      this.country = $event.target.value;
-      // console.log(this.state);
-      this.countries(this.country);
-      // alert('hello');
+    this.p1 = $event;
+    console.log(this.p1);
+  }
+  ngOnInit(): void {
+    this.checkloggedin();
+    this.Isreset=false;
+    this.reload();
+  }
+  checkloggedin(){
+    if(localStorage.getItem('token')==null)
+    {
+      this.router.navigate(['/signin']);
+      return false;
     }
+    else{
+
+      return true;
+    }
+  }
+  backtonav(){
+    this.router.navigate(['/navbar']);
+  }
+ 
+  onCodeChange($event: any) {
+    this.country = $event.target.value;
+    // console.log(this.state);
+   this.stateslist= this.countries(this.country);
+    // alert('hello');
+  }
+  onDatechange($event: any) {
+    this.Selecteddate = $event.target.value;
+    var Selecteddate=new Date(this.Selecteddate);
+    var today = new Date();
+    this.Currentdate = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+    this.date=today.getFullYear()-Selecteddate.getFullYear();
     
-     countries(country:any) {
-      this.regServices.GetStatebasedonCountry(country)
+    const date1 = new Date(this.Currentdate);
+    const date2 = new Date(this.Selecteddate);
+    const date = new Date();
+    //alert(this.date);
+    console.log(date);
+    if(date1<date2)
+    {
+      this.mr.Dob='';
+      alert('Date should not be less than system date');
+      return;
+    }
+    if (this.date < 18) {
+      this.mr.Dob='';
+      alert('Players age should be 18years');
+      
+      //alert('Date should not be less than system date');
+      return;
+    }
+    if(date1<date2)
+    {
+      this.mr.Dob='';
+      alert('Date should not be less than system date');
+      return;
+    }
+
+
+  }
+  countries(country: any) {
+    this.regServices.GetStatebasedonCountry(country)
       .subscribe(
         response => {
           console.log(response);
-          this.states=response;
+          this.states = response;
           // this.states=this.state.result;
           console.log(this.states);
-          
-          this.stateslist=this.states.result;
+
+          this.stateslist = this.states.result;
           //   this.reload();
-              
+
           console.log(this.stateslist);
-        
-         
+          return this.stateslist;
+          //alert(this.stateslist[0]);
         }
       );
-                     
-      
-    }
-  
-    // get states(): string[] | undefined {
-    //   return this.map.get(this.country);
-    // }
+      // 
+      console.log(this.stateslist);
+     
 
-    
-    onSubmit(){
-      this.regServices.register(this.mr)
+  }
+
+  // get states(): string[] | undefined {
+  //   return this.map.get(this.country);
+  // }
+  reset()
+  {
+    this.Isreset =true;
+    this.mr.PlayerName='';
+    this.mr.Email='';
+    this.mr.Address='';
+    this.mr.State='';
+    this.mr.Country='';
+    this.mr.Pan='';
+    this.mr.ContactNo='';
+    this.mr.Dob= '';
+
+  }
+
+  onSubmit() {
+    this.regServices.register(this.mr)
       .subscribe(
         response => {
           console.log(response);
           console.log(this.players);
-          
-          
-            this.reload();
-              
-         
-        
-         
+
+              alert('Player Registeration is Sucessfull!')
+               this.reset();
+              this.reload();
+
+                 
+
+
         }
       );
-    }
-    reload(){
-      this.regServices.GetPlayers()
+  }
+  reload() {
+    this.regServices.GetPlayers()
       .subscribe(
         response => {
           console.log('reload');
           console.log(response);
           console.log(this.players);
-          this.players=response;
-          this.playerslist=this.players.result;
-         
+          this.players = response;
+          this.playerslist = this.players.result;
+
         }
       );
-    }
-  setPlayerAttributes(updatebook:PlayerRegister)
-  {
-   this.playerslist=updatebook
+  }
+  setPlayerAttributes(updatebook: PlayerRegister) {
+    console.log('inside setatt');
+    console.log(updatebook);
+    this.playerslist = updatebook;
+    // this.country=this.playerslist.country;
+    // this.updatestateslist=this.countries(this.country);
+     console.log(this.playerslist);
   }
 
-  editPlayer(editplayerdetails:PlayerRegister)
-  {
-    console.log(editplayerdetails)
+  editPlayer(editplayerdetails: PlayerRegister) {
     this.setPlayerAttributes(editplayerdetails)
+    this.country= this.playerslist.country;
+    console.log(this.playerslist.country);
+    this.stateslist=this.countries(this.playerslist.country);
+     console.log(this.stateslist);
+    
     console.log(this.playerslist)
     this.isEditplayerClicked = true
     this.isListplayers = true
   }
 
-  
 
-  onEditPlayer(editplayerdetails:PlayerRegister){
-    console.log( editplayerdetails)
+
+  onEditPlayer(editplayerdetails: PlayerRegister) {
+    console.log(editplayerdetails)
     // this.playerslist.PlayerId='MS-000002'
-    console.log( editplayerdetails)
+    console.log(editplayerdetails)
     this.regServices.EditPlayer(editplayerdetails).subscribe
-    (
-      resposne => this.playerslist=resposne
-    );
+      (
+        resposne => this.playerslist = resposne
+      );
+      console.log(this.playerslist)
     this.isEditplayerClicked = false
     this.isListplayers = false
-    
+    alert('Player Updated Sucessfull!')
+    this.reload();
+
   }
 
 }

@@ -7,7 +7,7 @@
         <h4 style="Color:red">Player Registeration</h4>
         <form #f="ngForm" (ngSubmit)="onSubmit()" class="form-horizontal">
           <div class="card-body">
-          <div class="form-group row">
+          <!-- <div class="form-group row">
             <label class="col-sm-3 col=form-label" for="mid">PlayerID</label>
             <div class="col-sm-9">
             <input
@@ -18,9 +18,11 @@
               required
               #mid="ngModel"
             />
+            <div class="alert-danger" *ngIf="f.submitted && mid.invalid || mid.touched">
+              <div style="Color:red" *ngIf="mid.errors?.['required']">Player ID is required</div>
+            </div>
           </div>
-            <div style="Color:red" *ngIf="mid.errors?.['required'] && mid.touched" class="text-danger">PlayerId Required.</div>
-          </div>
+          </div> -->
           <div class="form-group row">
             <label class="col-sm-3 col=form-label" for="PlayerName">PlayerName</label>
             <div class="col-sm-9">
@@ -32,23 +34,31 @@
               required
               #PlayerName="ngModel"
             />
+            <div class="alert-danger" *ngIf="f.submitted && PlayerName.invalid || PlayerName.touched">
+              <div style="Color:red" *ngIf="PlayerName.errors?.['required'] && !Isreset">Player Name is required</div>
+            </div>
           </div>
-            <div style="Color:red" *ngIf="PlayerName.errors?.['required'] && PlayerName.touched" class="text-danger">PlayerName Required.</div>
           </div>
+
+           
        
           <div class="form-group row">
               <label class="col-sm-3 col=form-label" for="Email">Email</label>
               <div class="col-sm-9">
               <input
-                type="text"
+                type="email"
                 class="form-control"
                 name="Email"
                 [(ngModel)]="mr.Email"
                 required
                 #Email="ngModel"
+                pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"
               />
+              <div class="alert-danger" *ngIf="f.submitted && Email.invalid || Email.touched">
+              <div style="Color:red" *ngIf="Email.errors?.['required'] && !Isreset">Email is required</div>
+              <div style="Color:red" *ngIf="Email.errors?.['pattern']">Invalid EmailId</div>
             </div>
-              <div style="Color:red" *ngIf="Email.errors?.['required'] && Email.touched" class="text-danger">Email Required.</div>
+            </div>
             </div>
             <div class="form-group row">
               <label class="col-sm-3 col=form-label" for="Address">Address</label>
@@ -61,9 +71,11 @@
                 required
                 #Address="ngModel"
               />
+              <div class="alert-danger" *ngIf="f.submitted && Address.invalid || Address.touched">
+                <div style="Color:red" *ngIf="Address.errors?.['required'] && !Isreset">Address is required</div>
             </div>
-              <div style="Color:red" *ngIf="Email.errors?.['required'] && Address.touched" class="text-danger">Address Required.</div>
-            </div>
+              </div>
+              </div>
             <div class="form-group row">
               <label class="col-sm-3 col=form-label" for="Country">Country</label>
               <div class="col-sm-9">
@@ -81,11 +93,13 @@
                 <option value="USA">USA</option>
                 <option value="UK">UK</option>
                 </select>
+                <div class="alert-danger" *ngIf="f.submitted && Country.invalid || Country.touched">
+                  <div style="Color:red" *ngIf="Country.errors?.['required'] && !Isreset">Country is required</div>
               </div>
               <!-- <div style="Color:red" *ngIf="pid.errors?.['required'] && pid.touched" class="text-danger">PolicyID Required.</div> -->
             </div>
             
-            
+            </div>
             <div class="form-group row">
               <label class="col-sm-3 col=form-label" for="state">State</label>
               <div class="col-sm-9">
@@ -98,12 +112,14 @@
               [(ngModel)]="mr.State"
               required
               #State="ngModel">
+              <option>--Please Select--</option> 
               <option *ngFor="let state of this.stateslist"> {{ state }} </option>
               </select>
+              <div class="alert-danger" *ngIf="f.submitted && State.invalid || State.touched">
+                <div style="Color:red" *ngIf="State.errors?.['required'] && !Isreset">State is required</div>
             </div>
-              <div class="alert-danger" *ngIf="f.submitted && state.invalid">
-                <!-- <div style="Color:red" *ngIf="policystatus.errors?.['required']">Policy Status is required</div> -->
-              </div>
+            </div>
+              
             </div>
             <div class="form-group row">
               <label class="col-sm-3 col=form-label" for="Pan">Pan Card</label>
@@ -115,12 +131,17 @@
                 [(ngModel)]="mr.Pan"
                 required
                 #Pan="ngModel"
+                pattern="^[a-zA-Z0-9_]*$"
               />
+              <div class="alert-danger" *ngIf="f.submitted && Pan.invalid || Pan.touched">
+                <div style="Color:red" *ngIf="Pan.errors?.['required'] && !Isreset">Pan Card is required</div>
+                <div style="Color:red" *ngIf="Pan.errors?.['pattern']">Pan Card Should not contain any special characters</div>
+            </div>
             </div>
               <!-- <div style="Color:red" *ngIf="pid.errors?.['required'] && pid.touched" class="text-danger">PolicyID Required.</div> -->
             </div>
             <div class="form-group row">
-              <label class="col-sm-3 col=form-label" for="ContactNo">ContactNumber</label>
+              <label class="col-sm-3 col=form-label" for="ContactNo">Contact Number</label>
               <div class="col-sm-9">
               <input
                 type="text"
@@ -129,7 +150,12 @@
                 [(ngModel)]="mr.ContactNo"
                 required
                 #ContactNo="ngModel"
+                pattern="[0-9]{10}"
               />
+              <div class="alert-danger" *ngIf="f.submitted && ContactNo.invalid || ContactNo.touched">
+                <div style="Color:red" *ngIf="ContactNo.errors?.['required'] && !Isreset">Contact Number is required</div>
+                <div style="Color:red" *ngIf="ContactNo.errors?.['pattern']">Contact number should be 10 digits</div>
+            </div>
             </div>
               <!-- <div style="Color:red" *ngIf="pid.errors?.['required'] && pid.touched" class="text-danger">PolicyID Required.</div> -->
             </div>
@@ -143,22 +169,32 @@
                 [(ngModel)]="mr.Dob"
                 required
                 #Dob="ngModel"
+                (change)="onDatechange($event)"
               />
+              <div class="alert-danger" *ngIf="f.submitted && Dob.invalid || Dob.touched">
+                <div style="Color:red" *ngIf="Dob.errors?.['required'] && !Isreset">Date of Birth  is required</div>
+            </div>
             </div>
             <span id="lblError" style = "color:Red"></span>
               <!-- <div style="Color:red" *ngIf="pid.errors?.['required'] && pid.touched" class="text-danger">PolicyID Required.</div> -->
             </div>
       <div class="form-group">
-        <button style="background-color: blue;"  class="btn btn-primary btn-block">Create Member</button>
+        <span>
+          <button style="background-color: blue;" [disabled]="f.invalid"  class="btn btn-primary">Create Member</button> &nbsp;&nbsp;
+          <button style="background-color: blue;"  class="btn btn-primary" (click)="backtonav()">Cancel</button>
+        </span>
+        
+
       </div>
-      <!-- <div class="form-group">
-        <button style="background-color: blue;"  class="btn btn-primary btn-block" (click)="BookSlot()">BookSlot</button>
-      </div> -->
-    </div>
+           </div>
+              
         </form>
       </div>
       </div>
       </div>
+  </div>
+</div>
+
       <br>
       <br>
       
@@ -181,7 +217,9 @@
                   </tr>
               </thead>
               <tbody>
-                  <tr *ngFor = "let mr of playerslist">
+                  <tr *ngFor = "let mr of playerslist | paginate: {itemsPerPage: 5,
+                  currentPage:p1 ,
+                  totalItems: playerslist.length }"> 
                       <td> {{mr.playerId}} </td>
                       <td> {{mr.playerName}} </td>
                       <td> {{mr.email}} </td>
@@ -196,6 +234,8 @@
                           </a>
                         </td>
                   </tr>
+                  <!-- <pagination-controls (pageChange)="pageChanged($event)"></pagination-controls> -->
+                  <pagination-controls (pageChange)="pageChanged($event)"></pagination-controls>
               </tbody>
               
               </table>
@@ -207,9 +247,9 @@
     <span style="color: red;">No records found</span>
   </div>
  
-  </div>
+  
   <div class="card card-container mycontainer" *ngIf="isEditplayerClicked" >
-      <div><h1 style="text-align:center;">Edit Player</h1></div>
+      <div><h1 style="text-align:center;">Edit Player Details </h1></div>
       <form name="form" (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm" novalidate>
           <div class="form-group">
               <label for="playerId">Player Id</label>
@@ -219,26 +259,33 @@
         <div class="form-group">
           <label for="email">Email Id</label>
           <input type="text" class="form-control" name="email" [(ngModel)]="this.playerslist.email" 
-             #email="ngModel" />          
+             #email="ngModel"  pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" /> 
+             <div class="alert-danger" *ngIf="f.submitted && email.invalid || email.touched">
+              <div style="Color:red" *ngIf="email.errors?.['required']">Email is required</div>
+              <div style="Color:red" *ngIf="email.errors?.['pattern']">Invalid EmailId</div>
+            </div>         
         </div>
         <div class="form-group">
           <label for="pan">Pan Card</label>
           <input type="text"  class="form-control" name="pan" [(ngModel)]="this.playerslist.pan" required
-            #pan="ngModel"  />   
-          <div class="alert-danger" *ngIf="f.submitted && pan.invalid">
-            <div *ngIf="pan.errors?.['required']">Pan Card is required</div>
-          </div>       
+            #pan="ngModel"  pattern="^[a-zA-Z0-9_]*$" />   
+            <div class="alert-danger" *ngIf="f.submitted && pan.invalid || pan.touched">
+              <div style="Color:red" *ngIf="pan.errors?.['required']">Pan Card is required</div>
+              <div style="Color:red" *ngIf="pan.errors?.['pattern']">Pan Card Should not contain any special characters</div>
+          </div> 
         </div>
         <div class="form-group">
-            <label for="contactNo">contactNo</label>
+            <label for="contactNo">Contact Number</label>
             <input type="text" class="form-control"  name="contactNo"
-              [(ngModel)]="this.playerslist.contactNo" required #contactNo="ngModel" />   
-            <div class="alert-danger" *ngIf="f.submitted && contactNo.invalid">
-              <div *ngIf="contactNo.errors?.['required']">Contact No is required</div>
-            </div>       
+              [(ngModel)]="this.playerslist.contactNo" required #contactNo="ngModel" 
+              pattern="[0-9]{10}" />   
+              <div class="alert-danger" *ngIf="f.submitted && contactNo.invalid || contactNo.touched">
+                <div style="Color:red" *ngIf="contactNo.errors?.['required']">Contact Number is required</div>
+                <div style="Color:red" *ngIf="contactNo.errors?.['pattern']">Contact number should be 10 digits</div>
+            </div>     
         </div>
         <div class="form-group row">
-          <label class="col-sm-3 col=form-label" for="Country">Country</label>
+          <label class="col-sm-3 col=form-label" for="country">Country</label>
           <div class="col-sm-9">
             <!-- <select [(ngModel)]="this.playerslist.country">
               <option *ngFor="let country of countries" [value]="country"> {{ country }} </option>
@@ -246,33 +293,41 @@
 
             <select 
             class="form-control" 
-            name="Country"
-            [(ngModel)]="mr.Country"
+            name="country"
+            [(ngModel)]="this.mr.Country"
             required
             #Country="ngModel" (change)="onCodeChange($event)">
             <option value="India">India</option>
             <option value="USA">USA</option>
             <option value="UK">UK</option>
             </select>
+            <div class="alert-danger" *ngIf="f.submitted && country.invalid || country.touched">
+              <div style="Color:red" *ngIf="country.errors?.['required']">Country is required</div>
+          </div>
           </div>
           <!-- <div style="Color:red" *ngIf="pid.errors?.['required'] && pid.touched" class="text-danger">PolicyID Required.</div> -->
         </div>
         
         
         <div class="form-group row">
-          <label class="col-sm-3 col=form-label" for="state">State</label>
+          <label class="col-sm-3 col=form-label" for="State">State</label>
           <div class="col-sm-9">
             <!-- <select *ngIf="country" [(ngModel)]="this.playerslist.state" [value]="state">
               <option *ngFor="let state of states"> {{ state }} </option>
             </select> -->
           <select 
           class="form-control" 
-          name="State"
-          [(ngModel)]="mr.State"
+          name="state"
+          [(ngModel)]="this.mr.State"
           required
-          #State="ngModel">
-          <option *ngFor="let state of this.stateslist"> {{ state }} </option>
+          #state="ngModel">
+          <option *ngFor="let state of this.updatestateslist" [value]="state">
+            {{ state }}
+           </option>
           </select>
+          <div class="alert-danger" *ngIf="f.submitted && state.invalid || state.touched">
+            <div style="Color:red" *ngIf="state.errors?.['required']">State is required</div>
+        </div>
         </div>
           <div class="alert-danger" *ngIf="f.submitted && state.invalid">
             <!-- <div style="Color:red" *ngIf="policystatus.errors?.['required']">Policy Status is required</div> -->
@@ -280,8 +335,11 @@
         </div>
        
        
-        <div class="form-group">
-          <button class="btn btn-primary" (click)="onEditPlayer(this.playerslist)">Edit</button>
+        <div class="form-group"> 
+          <span>
+            <button class="btn btn-primary" style="background-color: blue;" (click)="onEditPlayer(this.playerslist)">Edit</button> &nbsp;&nbsp;
+          </span>
+         
         </div>
         <div class="alert alert-warning" *ngIf="f.submitted && isCreateplayerFailed">
           Player edit failed!<br />{{ errorMessage }}
@@ -292,50 +350,3 @@
       </div>
 
 </div>
-<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6/jquery.min.js" type="text/javascript"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"
-    type="text/javascript"></script>
-<link href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css"
-    rel="Stylesheet" type="text/css" />
-<script type="text/javascript">
-    $(function () {
-        $("#txtDate").datepicker({
-            changeMonth: true,
-            changeYear: true,
-            showOn: 'button',
-            buttonImageOnly: true,
-            buttonImage: 'images/calendar.gif',
-            dateFormat: 'dd/mm/yy',
-            yearRange: '1900:+0',
-            onSelect: function (dateString, txtDate) {
-                ValidateDOB(dateString);
-            }
-        });
-    });
-    function ValidateDOB(dateString) {
-        var lblError = $("#lblError");
-        var parts = dateString.split("/");
-        var dtDOB = new Date(parts[1] + "/" + parts[0] + "/" + parts[2]);
-        var dtCurrent = new Date();
-        lblError.html("Eligibility 18 years ONLY.")
-        if (dtCurrent.getFullYear() - dtDOB.getFullYear() < 18) {
-            return false;
-        }
- 
-        if (dtCurrent.getFullYear() - dtDOB.getFullYear() == 18) {
- 
-            //CD: 11/06/2018 and DB: 15/07/2000. Will turned 18 on 15/07/2018.
-            if (dtCurrent.getMonth() < dtDOB.getMonth()) {
-                return false;
-            }
-            if (dtCurrent.getMonth() == dtDOB.getMonth()) {
-                //CD: 11/06/2018 and DB: 15/06/2000. Will turned 18 on 15/06/2018.
-                if (dtCurrent.getDate() < dtDOB.getDate()) {
-                    return false;
-                }
-            }
-        }
-        lblError.html("");
-        return true;
-    }
-</script> -->

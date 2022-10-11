@@ -8,8 +8,8 @@
         <form #f="ngForm"  class="form-horizontal">
           <div class="card-body">
             <div class="form-group row">
-              <label class="col-sm-3 col=form-label" for="GroundName"> GroundName</label>
-              <div class="col-sm-9">
+              <label class="col-sm-4 col=form-label" for="GroundName"> GroundName</label>
+              <div class="col-sm-8">
                 <!-- <select [(ngModel)]="mr.Country" (change)="onCodeChange($event)">
                   <option *ngFor="let country of countries" [value]="country"> {{ country }} </option>
                 </select> -->
@@ -20,7 +20,7 @@
                 [(ngModel)]="mr.GroundName"
                 required
                 #GroundName="ngModel" (change)="ondrpGroundChange($event)">
-                <option value="Crircket1">Crircket1</option>
+                <option value="Crircket1">Cricket1</option>
                 <option value="Cricket2">Cricket2</option>
                 <option value="Cricket3">Cricket3</option>
                 <option value="Batemanton1">Batemanton1</option>
@@ -28,27 +28,37 @@
                 <option value="Football">Football</option>
 
                 </select>
+                <div class="alert-danger" *ngIf="f.submitted && GroundName.invalid || GroundName.touched">
+                  <div style="Color:red" *ngIf="GroundName.errors?.['required']">GroundName is required</div>
+              </div>
               </div>
               <!-- <div style="Color:red" *ngIf="pid.errors?.['required'] && pid.touched" class="text-danger">PolicyID Required.</div> -->
             </div>
             <div class="form-group row">
-              <label class="col-sm-3 col=form-label" for="Date">Date</label>
-              <div class="col-sm-9">
+              <label class="col-sm-4 col=form-label" for="Date1">Date</label>
+              <div class="col-sm-8">
               <input
                 type="date"
                 class="form-control"
-                name="Date"
+                name="Date1"
                 [(ngModel)]="mr.Bookeddate"
                 (change)="onDateChange($event)"
                 required
-                #Date="ngModel"
+                #Date1="ngModel"
               />
+              <div class="alert-danger" *ngIf="f.submitted && Date1.invalid || Date1.touched">
+              <div style="Color:red" *ngIf="Date1.errors?.['required']">Date  is required</div>
+            </div>
             </div>
             <span id="lblError" style = "color:Red"></span>
               <!-- <div style="Color:red" *ngIf="pid.errors?.['required'] && pid.touched" class="text-danger">PolicyID Required.</div> -->
             </div>
        <div class="form-group">
-        <button style="background-color: blue;" (click)="GetAvailableSlots()" class="btn btn-primary">BookSlot</button>
+         <span>
+          <button style="background-color: blue;" [disabled]="f.invalid" (click)="GetAvailableSlots()" class="btn btn-primary">BookSlot</button>
+           &nbsp;&nbsp;
+          <button style="background-color: blue;"  class="btn btn-primary" (click)="backtonav()">Cancel</button>
+        </span>
       </div>
     </div>
   </form>
@@ -72,7 +82,9 @@
               </tr>
           </thead>
           <tbody>
-              <tr *ngFor = "let sl of this.Availableslotlist">
+              <tr *ngFor = "let sl of this.Availableslotlist | paginate: {itemsPerPage: 5,
+                currentPage:p1 ,
+                totalItems: Availableslotlist.length }">
                   <td> {{ mr.GroundName}} </td>
                   <td> {{ mr.Bookeddate | date}} </td>
                   <td> {{ sl }} </td>
@@ -82,6 +94,7 @@
                      (click)="SlotBooking(sl)">Book Slot</button>
                  </td>
               </tr>
+              <pagination-controls (pageChange)="pageChanged($event)"></pagination-controls>
           </tbody>
           
           </table>
@@ -117,6 +130,7 @@
                      >Booked</button>
                  </td>
               </tr>
+              <!-- <pagination-controls (pageChange)="pageChanged1($event)"></pagination-controls> -->
           </tbody>
           
           </table>
