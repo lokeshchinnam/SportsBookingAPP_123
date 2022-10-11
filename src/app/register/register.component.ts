@@ -13,7 +13,7 @@ import { AppComponent } from '../app.component';
   styleUrls: ['./register.component.css']
   //templateUrl: './popup.component.html',
 })
-export class RegisterComponent extends PopupComponent implements OnInit {
+export class RegisterComponent  implements OnInit {
   user: Users = {
     userId:0,
     email: '',
@@ -29,12 +29,14 @@ export class RegisterComponent extends PopupComponent implements OnInit {
   Selecteddate:any;
   Currentdate:any;
   date:any;
+  displayStyle = "none";
+  Msg='';
 
   //popup =new AppComponent()
-  override ngOnInit(): void {
+   ngOnInit(): void {
   }
   constructor(private loginservice:LoginServices,private router: Router) { 
-    super();
+    //super();
   }
 
   
@@ -74,6 +76,15 @@ export class RegisterComponent extends PopupComponent implements OnInit {
 
 
   }
+  openPopup(input:string) {
+    console.log(input);
+    this.Msg=input;
+    console.log(this.Msg);
+    this.displayStyle = "block";
+  }
+  closePopup() {
+    this.displayStyle = "none";
+  }
 
   onSubmit(angForm:NgForm){
     if(angForm.invalid){
@@ -89,7 +100,9 @@ export class RegisterComponent extends PopupComponent implements OnInit {
         
         if(result=="User Account created successfully")
         {
-          alert('registeration Sucessful!')
+          alert('registeration Sucessful!');
+          //this.openPopup('registeration Sucessful!');
+          
           this.errorMessage=result;
           this.router.navigate(['/signin']);
         }
